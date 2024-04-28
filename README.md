@@ -10,6 +10,9 @@ including PHP module:
 * php-curl
 * php-zip
 * php-json
+* php-bcmath
+
+
 
 
 etc...

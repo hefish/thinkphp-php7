@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  nginx-php7:
+    hostname: php-host
+    container_name: php-host
+    image: hefish/thinkphp-php7
+    volumes:
+      - ./wwwroot:/var/www/html
+    restart: always
+

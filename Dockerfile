@@ -1,23 +1,18 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
-RUN  apt update && apt install -y nginx php-fpm php-cli composer supervisor php-mysql php-json php-xml php-curl php-zip  &&  \ 
-     mkdir /run/php  && touch /var/log/php7.4-fpm.log /var/log/www.log.slow && chown www-data:www-data /var/log/php7.4-fpm.log /var/log/www.log.slow  
 
+RUN  apt update && apt install -y nginx php-cli php-fpm php-mysql php-gd php-curl php-mbstring php-xml php-zip php-bcmath composer  && \
+     mkdir /run/php    
 
 ADD  config/nginx.conf /etc/nginx/nginx.conf
-ADD  config/www.conf   /etc/php/7.4/fpm/pool.d/www.conf
-ADD  config/php.ini    /etc/php/7.4/fpm/php.ini
-ADD  config/nginx-php.conf /etc/nginx/conf.d/nginx-php.conf 
-ADD  config/supervisor-php.conf /etc/supervisor/conf.d/supervisor-php.conf
-ADD  src/i.php    /var/www/html/public/i.php
-
-
-VOLUME   /var/www/html
-VOLUME   /var/log
-
-#USER  www-data
+ADD  config/php-fpm-www.conf /etc/php/7.4/fpm/pool.d/php-fpm-www.conf
+ADD  config/php.ini  /etc/php/7.4/fpm/php.ini
+ADD  entry-point.sh  /entry-point.sh
 
 EXPOSE 8080
 
-ENTRYPOINT  ["supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
+WORKDIR  /var/www/html
+
+ENTRYPOINT ["/entry-point.sh"]
+
 
