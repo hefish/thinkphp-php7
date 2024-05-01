@@ -1,7 +1,8 @@
 FROM debian:bullseye-slim
 
 
-RUN  apt update && apt install -y nginx php-cli php-fpm php-mysql php-gd php-curl php-mbstring php-xml php-zip php-bcmath composer  && \
+RUN  sed -i "s/deb.debian.org/mirrors.ustc.edu.cn/" /etc/apt/sources.list && \
+     apt update && apt install -y nginx php-cli php-fpm php-mysql php-gd php-curl php-mbstring php-xml php-zip php-bcmath composer  && \
      mkdir /run/php    
 
 ADD  config/nginx.conf /etc/nginx/nginx.conf
